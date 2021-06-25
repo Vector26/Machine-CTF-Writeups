@@ -198,4 +198,23 @@ hRCRzsyyios7dMiVPtxtsomEHwYZiybnr3SeFGuUr1w/Qq9iB8/ZMckMGbxoUGmr
 eyq5AoGBANCkOaWnitoMTdWZ5d+WNNCqcztoNppuoMaG7L3smUSBz6k8J4p4yDPb
 QNF1fedEOvsguMlpNgvcWVXGINgoOOUSJTxCRQFy/onH6X1T5OAAW6/UXc4S7Vsg
 jL8g9yBg4vPB8dHC6JeJpFFE06vxQMFzn6vjEab9GhnpMihrSCod
------END RSA PRIVATE KEY-----```
+-----END RSA PRIVATE KEY-----
+```
+## FootHold
+So we will use PuttYGen to generate and connect us with the SSH
+
+![](2021-06-25-11-53-27.png)
+
+Save the above RSA Priv Key to a .ppk format and use 
+
+`Load an existing private key file.`
+
+And after that click on `Save Private key` .
+
+After that open PuttY and Click Connection > SSH > Auth in the left navigation pane and configure the SSH private key to use by clicking Browse under Private key file for authentication.
+
+Then Login using PuttY
+
+With username Being:'jessie' we found before.
+
+![](2021-06-25-12-01-49.png)
