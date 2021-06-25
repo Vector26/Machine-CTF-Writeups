@@ -1,8 +1,14 @@
 # Wgel
 
-## Enumuration
+### Wgel is a TryHackMe Machine. It's an easy level Machine to demonstrate the basics of system hacking.TryHackMe Provides Almost Free Labs to study and practise pentesting and CTF based Skills needed for an offensive-based cyber practioner.
 
+## Enumuration
+Enumeration is the process of understadning our target. Here target has been provided by an IPv4 address.
 ### NMAP Scan
+
+So we First use a Tool called NMap to scan the IP address. To know which services are running and what vulnerabilities it might hold.
+
+### `nmap -T4 -A -v {IP Address}`
 
 ```python
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-06-25 00:34 India Standard Time
@@ -57,44 +63,10 @@ PORT   STATE SERVICE VERSION
 |_  Supported Methods: POST OPTIONS GET HEAD
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: Apache2 Ubuntu Default Page: It works
-No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
-TCP/IP fingerprint:
-OS:SCAN(V=7.91%E=4%D=6/25%OT=22%CT=1%CU=36525%PV=Y%DS=2%DC=T%G=Y%TM=60D4D76
-OS:4%P=i686-pc-windows-windows)SEQ(SP=101%GCD=1%ISR=108%TI=Z%CI=I%II=I%TS=A
-OS:)SEQ(SP=101%GCD=1%ISR=107%TI=Z%II=I%TS=A)OPS(O1=M505ST11NW6%O2=M505ST11N
-OS:W6%O3=M505NNT11NW6%O4=M505ST11NW6%O5=M505ST11NW6%O6=M505ST11)WIN(W1=68DF
-OS:%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%DF=Y%T=40%W=6903%O=M505
-OS:NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R
-OS:=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=
-OS:AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=
-OS:40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID
-OS:=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
-
-Uptime guess: 47.489 days (since Sat May 08 12:51:04 2021)
-Network Distance: 2 hops
-TCP Sequence Prediction: Difficulty=257 (Good luck!)
-IP ID Sequence Generation: All zeros
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-TRACEROUTE (using port 554/tcp)
-HOP RTT       ADDRESS
-1   170.00 ms 10.9.0.1
-2   171.00 ms 10.10.3.112
-
-NSE: Script Post-scanning.
-Initiating NSE at 00:35
-Completed NSE at 00:35, 0.00s elapsed
-Initiating NSE at 00:35
-Completed NSE at 00:35, 0.00s elapsed
-Initiating NSE at 00:35
-Completed NSE at 00:35, 0.00s elapsed
-Read data files from: C:\Program Files (x86)\Nmap
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 33.54 seconds
-           Raw packets sent: 1132 (53.946KB) | Rcvd: 1088 (47.062KB)
+--------------------------TRUNCATED---------------------------
 ```
 
-Majorly we find that 2 Ports are active:
+From the above results we find out majorly 2 Ports are active:
 
 | Port No. | Service |
 | -------- | ------- |
@@ -107,6 +79,7 @@ On opening the website we find it is hosting a default Apache UBUNTU server.
 
 ### Source Code Enum
 
+After going through the source code of the page, we find:
 ![](2021-06-25-00-52-15.png)
 #### Hmm, looks like we found that there is a user named 'Jessie'.
 
@@ -114,6 +87,9 @@ On opening the website we find it is hosting a default Apache UBUNTU server.
 
 
 ### DIRB enum
+
+Here we use a tool called DIRB (Directory Buster).
+It shows us Possible directory routes on this Portal.
 #### DIRB returned some awesome data:
 -----------------
 ```python
