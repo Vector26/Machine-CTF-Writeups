@@ -1,6 +1,6 @@
 # Wgel
 
-### Wgel is a TryHackMe Machine. It's an easy level Machine to demonstrate the basics of system hacking.TryHackMe Provides Almost Free Labs to study and practise pentesting and CTF based Skills needed for an offensive-based cyber practioner.
+#### Wgel is a TryHackMe Machine. It's an easy level Machine to demonstrate the basics of system hacking.TryHackMe Provides Almost Free Labs to study and practise pentesting and CTF based Skills needed for an offensive-based cyber practioner.
 
 ## Enumuration
 Enumeration is the process of understadning our target. Here target has been provided by an IPv4 address.
@@ -220,7 +220,7 @@ So We have sudo permissions for wget, I wonder what we can do.
 * Read Files on PWN machine
 
 So we can directly upload /root/root_flag.txt to Our machine but thats not enough in real life.
-So we will rewrite the `/etc/sudoers` file. This file is responsible for giving sudo-without-password permissions to various users and programs
+So we will rewrite the `/etc/sudoers` file. This file is responsible for giving sudo-without-password permissions to various users and programs.
 
 Start a reverse shell listener on your attacking machine
 
