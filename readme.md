@@ -78,10 +78,10 @@ On opening the website we find it is hosting a default Apache UBUNTU server.
 ![](2021-06-25-00-59-19.png)
 
 ### Source Code Enum
-
 After going through the source code of the page, we find:
 ![](2021-06-25-00-52-15.png)
-#### Hmm, looks like we found that there is a user named 'Jessie'.
+
+## Hmm, looks like we found that there is a user named 'Jessie'.
 
 ![](2021-06-25-01-12-12.png)
 
