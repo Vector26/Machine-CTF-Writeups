@@ -1,4 +1,13 @@
 
+# Cap 
+
+Cap is an easy machine of HTB.
+Usually I use manual approach, but i stumbled upon this great tool of an arsenal.
+**AutoEnum**
+
+Autoenum does enumuration on your behalf. Most of the findings are good, but a lot of them are rabbit holes.
+Here is a truncated result of autoenum.
+
 ![](2021-08-06-01-06-58.png)
 
 ```
@@ -80,17 +89,41 @@ Nmap done: 1 IP address (1 host up) scanned in 954.15 seconds
 
 ![](2021-08-06-01-04-32.png)
 
+Here we find a CSRF XSS vulnerability. We can exploit by putting manually another value instead of '4'. So I wanted to know what was the first connection reuests on this machine. So I chose '0'.
 
+
+We download the PCAP file (because it looks fishy, the data, and the machine's name is as well 'CAP').
 ![](2021-08-06-00-55-00.png)
 
+We found the credentials after a little searching.
 
 #### USER:nathan
 #### PASS:Buck3tH4TF0RM3!
 
 ![](2021-08-06-01-10-24.png)
 
+I logged-in using ftp and downloaded the user.txt.
+
+```
+get user.txt
+```
+
 ![](2021-08-06-01-14-37.png)
 
 Trying the same credentials for SSH, It works.
 
+For Privilege escalation, I used 'LinPeas'.
+Its a great tool for quick searching of vulnerabilities in a system.
 ![](2021-08-06-01-25-33.png)
+
+We found some intresting capabilities.
+<https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/>
+
+![](2021-08-11-21-23-53.png)
+
+We used local arbitary code privilege escalation for this.
+
+```python
+python3 -c "import os;os.setuid(0);os.system('/bin/bash')"
+```
+(Here ';' in python is used as a delimeter).
